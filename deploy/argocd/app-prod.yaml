@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/DITT-BRUKERNAVN/DITT-REPO.git
+    repoURL: https://github.com/eyupyayan/My-DevOps-Pipeline-Project.git
     targetRevision: master
     path: deploy/helm/my-devops-app
     helm:

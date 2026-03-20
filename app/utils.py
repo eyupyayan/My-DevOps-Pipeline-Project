@@ -1,4 +1,11 @@
 from datetime import datetime, UTC
+from prometheus_client import Counter
+
+REQUEST_COUNT = Counter(
+    "my_devops_app_requests_total",
+    "Total number of HTTP requests to my-devops-app",
+    ["endpoint"]
+)
 
 
 def get_status_payload(config):

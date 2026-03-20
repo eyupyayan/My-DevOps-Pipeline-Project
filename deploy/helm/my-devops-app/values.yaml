@@ -4,7 +4,7 @@ replicaCount: 1
 
 image:
   repository: eyupyayan/my-devops-app
-  tag: "1.0.0"
+  tag: "1.0.1"
   pullPolicy: IfNotPresent
 
 service:
@@ -31,3 +31,8 @@ resources:
   limits:
     cpu: "300m"
     memory: "256Mi"
+
+metrics:
+  enabled: true
+  path: /metrics
+  interval: 15s

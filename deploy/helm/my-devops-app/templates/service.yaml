@@ -3,10 +3,13 @@ kind: Service
 metadata:
   name: {{ include "my-devops-app.fullname" . }}
   namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ include "my-devops-app.fullname" . }}
 spec:
   type: {{ .Values.service.type }}
   selector:
     app: {{ include "my-devops-app.fullname" . }}
   ports:
-    - port: {{ .Values.service.port }}
+    - name: http
+      port: {{ .Values.service.port }}
       targetPort: {{ .Values.service.targetPort }}

@@ -1,0 +1,68 @@
+---
+# Source: my-devops-app/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-dev-my-devops-app
+  namespace: apps
+spec:
+  type: ClusterIP
+  selector:
+    app: app-dev-my-devops-app
+  ports:
+    - port: 80
+      targetPort: 5000
+---
+# Source: my-devops-app/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-dev-my-devops-app
+  namespace: apps
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-dev-my-devops-app
+  template:
+    metadata:
+      labels:
+        app: app-dev-my-devops-app
+    spec:
+      containers:
+        - name: my-devops-app
+          image: "eyupyayan/my-devops-app:1.0.0"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5000
+          envFrom:
+            - configMapRef:
+                name: app-dev-my-devops-app-config
+          resources:
+            limits:
+              cpu: 300m
+              memory: 256Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+---
+# Source: my-devops-app/templates/hpa.yaml
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: app-dev-my-devops-app
+  namespace: apps
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: app-dev-my-devops-app
+  minReplicas: 1
+  maxReplicas: 2
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70

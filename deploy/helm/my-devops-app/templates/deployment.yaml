@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "my-devops-app.fullname" . }}
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "my-devops-app.fullname" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "my-devops-app.fullname" . }}
+    spec:
+      containers:
+        - name: my-devops-app
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.service.targetPort }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "my-devops-app.fullname" . }}-config
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}

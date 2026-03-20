@@ -1,0 +1,10 @@
+replicaCount: 1
+
+config:
+  appEnv: dev
+  message: "Hello from dev"
+
+autoscaling:
+  minReplicas: 1
+  maxReplicas: 2
+  targetCPUUtilizationPercentage: 70

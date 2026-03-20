@@ -1,0 +1,33 @@
+namespace: apps
+
+replicaCount: 1
+
+image:
+  repository: eyupyayan/my-devops-app
+  tag: "1.0.0"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 5000
+
+config:
+  appName: my-devops-app
+  appEnv: base
+  appVersion: "1.0.0"
+  message: "Hello from Helm"
+
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 2
+  targetCPUUtilizationPercentage: 70
+
+resources:
+  requests:
+    cpu: "100m"
+    memory: "128Mi"
+  limits:
+    cpu: "300m"
+    memory: "256Mi"

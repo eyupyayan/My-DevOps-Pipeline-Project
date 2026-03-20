@@ -1,0 +1,10 @@
+replicaCount: 2
+
+config:
+  appEnv: prod
+  message: "Hello from prod"
+
+autoscaling:
+  minReplicas: 2
+  maxReplicas: 4
+  targetCPUUtilizationPercentage: 60
